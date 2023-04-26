@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,9 +8,9 @@ using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 namespace OmniSharp.Extensions.LanguageServer.Server.Pipelines
 {
     internal class SemanticTokensDeltaPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse?>
-        where TRequest : notnull
+        where TRequest : notnull, MediatR.IRequest<TResponse>
     {
-        public async Task<TResponse?> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse?> next)
+        public async Task<TResponse?> Handle(TRequest request, RequestHandlerDelegate<TResponse?> next, CancellationToken cancellationToken)
         {
             if (request is SemanticTokensParams semanticTokensParams)
             {
